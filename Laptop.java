@@ -1,10 +1,21 @@
+
 public class Laptop {
+
     String colour;
     String brand;
     String CPUtype;
     Integer amountOfRAM;
     Integer displaySize;
     Integer amountOfHDD;
+    
+    public Laptop (Object brand, Object colour, Object CPUtype, Object displaySize, Object amountOfRAM, Object amountOfHDD){
+        this.brand = (String)brand;
+        this.colour = (String)colour;
+        this.CPUtype = (String)CPUtype;
+        this.displaySize = (Integer)displaySize;
+        this.amountOfRAM = (Integer)amountOfRAM;
+        this.amountOfHDD = (Integer)amountOfHDD;
+    }
 
     @Override
     public String toString() {
@@ -63,5 +74,7 @@ public class Laptop {
     public void setDisplaySize(Integer displaySize) {
         this.displaySize = displaySize;
     }
-}
 
+    
+}
+                                    

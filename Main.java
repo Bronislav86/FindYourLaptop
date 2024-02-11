@@ -20,61 +20,31 @@
 4. Работа выполнена только для каких то конкретных ноутбуков, и если поменять характеристики ноутбуков или добавить еще ноутбук, то программа начинает работать некорректно
  */
 
-import java.util.Collection;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class Main {
-    //private static Laptop findParameters = new Laptop("null", "null", 0, "null", 0, 0);
+    //private static Laptop lookingForLaptop = new Laptop(null, null, null, 0, 0, 0);
 
     public static void main(String[] args) {
 
-        //Laptop laptop6 = new Laptop("Mac", "Grey", 16, "Intel", 16, 1000);
+        Laptop laptop1 = new Laptop("Huawei", "Grey", "IntelCorei5", 15, 16, 1000);
+        Laptop laptop2 = new Laptop("ASUS", "White", "IntelCorei3", 17, 8, 512);
+        Laptop laptop3 = new Laptop("Hewlet-Packard", "Grey", "IntelCorei7", 16, 4, 256);
+        Laptop laptop4 = new Laptop("MSI", "Black", "AMD", 17, 16, 128);
+        Laptop laptop5 = new Laptop("VAIO", "Red", "IntelCeleron", 14, 8, 512);
+        Laptop laptop6 = new Laptop("VAIO", "White", "IntelCorei5", 15, 16, 512);
 
-        Laptop laptop1 = new Laptop();
-        laptop1.brand = "Huawei";
-        laptop1.colour = "Grey";
-        laptop1.displaySize = 15;
-        laptop1.CPUtype = "IntelCorei5";
-        laptop1.amountOfRAM = 16;
-        laptop1.amountOfHDD = 1000;
-
-        Laptop laptop2 = new Laptop();
-        laptop2.brand = "ASUS";
-        laptop2.colour = "White";
-        laptop2.displaySize = 17;
-        laptop2.CPUtype = "IntelCorei3";
-        laptop2.amountOfRAM = 8;
-        laptop2.amountOfHDD = 512;
-
-        Laptop laptop3 = new Laptop();
-        laptop3.brand = "Hewlett-Packard";
-        laptop3.colour = "Grey";
-        laptop3.displaySize = 16;
-        laptop3.CPUtype = "IntelCorei7";
-        laptop3.amountOfRAM = 4;
-        laptop3.amountOfHDD = 256;
-
-        Laptop laptop4 = new Laptop();
-        laptop4.brand = "MSI";
-        laptop4.colour = "Black";
-        laptop4.displaySize = 17;
-        laptop4.CPUtype = "AMD";
-        laptop4.amountOfRAM = 16;
-        laptop4.amountOfHDD = 128;
-
-        Laptop laptop5 = new Laptop();
-        laptop5.brand = "VAIO";
-        laptop5.colour = "Red";
-        laptop5.displaySize = 14;
-        laptop5.CPUtype = "IntelCeleron";
-        laptop5.amountOfRAM = 8;
-        laptop5.amountOfHDD = 512;
 
         Set<Laptop> laptops = new HashSet<>();
         laptops.add(laptop1);
@@ -82,64 +52,161 @@ public class Main {
         laptops.add(laptop3);
         laptops.add(laptop4);
         laptops.add(laptop5);
+        laptops.add(laptop6);
 
-        Map<Integer, String> mapBrands = new HashMap<>();
-        mapBrands.put(1, laptop1.getBrand());
-        mapBrands.put(2, laptop2.getBrand());
-        mapBrands.put(3, laptop3.getBrand());
-        mapBrands.put(4, laptop4.getBrand());
-        mapBrands.put(6, laptop5.getBrand());
+        printSet(laptops);
 
-        Map<Integer, String> mapColours = new HashMap<>();
-        mapColours.put(1, "Grey");
-        mapColours.put(2, "Black");
-        mapColours.put(3, "Red");
-        mapColours.put(4, "White");
+        List<Object> brendList = new LinkedList<Object>(createBrendList(laptops));
+        List<Object> colourList = new LinkedList<Object>(createсColourList(laptops));
+        List<Object> cpuList = new LinkedList<Object>(createCPUList(laptops));
+        List<Object> displayList = new LinkedList<Object>(createDisplayList(laptops));
+        List<Object> ramList = new LinkedList<Object>(createRAMList(laptops));
+        List<Object> hddList = new LinkedList<Object>(createHDDList(laptops));
 
-        // List<Object> CPUtype = new LinkedList<>();
-        // CPUtype.add(laptop1.getCPUtype());
-        // CPUtype.add(laptop2.getCPUtype());
-        // CPUtype.add(laptop3.getCPUtype());
-        // CPUtype.add(laptop4.getCPUtype());
-        // CPUtype.add(laptop5.getCPUtype());
+        TreeMap <Integer, Object> brandMap = new TreeMap<>(addToTreeMap(brendList));
+        TreeMap <Integer, Object> colourMap = new TreeMap<>(addToTreeMap(colourList));
+        TreeMap <Integer, Object> cpuMap = new TreeMap<>(addToTreeMap(cpuList));
+        TreeMap <Integer, Object> displayMap = new TreeMap<>(addToTreeMap(displayList));
+        TreeMap <Integer, Object> ramMap = new TreeMap<>(addToTreeMap(ramList));
+        TreeMap <Integer, Object> hddMap = new TreeMap<>(addToTreeMap(hddList));
 
-        // List<Object> displays = new LinkedList<>();
-        // displays.add(14);
-        // displays.add(15);
-        // displays.add(16);
-        // displays.add(17);
+        Map<String, TreeMap<Integer, Object>> mapOfAllCaracters = new HashMap<>(createMapOfAllCaracters(brandMap, colourMap, cpuMap, displayMap, ramMap, hddMap));
 
-        // List<Object> ram = new LinkedList<>();
-        // ram.add(128);
-        // ram.add(256);
-        // ram.add(512);
-        // ram.add(1000);
+        System.out.println(mapOfAllCaracters);
 
-        // List<Object> hdd = new LinkedList<>();
-        // hdd.add(128);
-        // hdd.add(256);
-        // hdd.add(512);
-        // hdd.add(1000);
+        // Map<Integer, String> mapBrands = new HashMap<>();
+        // mapBrands.put(1, laptop1.getBrand());
+        // mapBrands.put(2, laptop2.getBrand());
+        // mapBrands.put(3, laptop3.getBrand());
+        // mapBrands.put(4, laptop4.getBrand());
+        // mapBrands.put(6, laptop5.getBrand());
 
-        // Map<String, LinkedList<Object>> parameters = new HashMap<>();
-        // parameters.putIfAbsent("Производитель", (LinkedList<Object>) brands);
-        // parameters.putIfAbsent("Цвет", (LinkedList<Object>) colours);
-        // parameters.putIfAbsent("Процессор", (LinkedList<Object>) CPUtype);
-        // parameters.putIfAbsent("Экран", (LinkedList<Object>) displays);
-        // parameters.putIfAbsent("ОЗУ", (LinkedList<Object>) ram);
-        // parameters.putIfAbsent("Память", (LinkedList<Object>) hdd);
+        // Map<Integer, String> mapColours = new HashMap<>();
+        // mapColours.put(1, "Grey");
+        // mapColours.put(2, "Black");
+        // mapColours.put(3, "Red");
+        // mapColours.put(4, "White");
 
-        // parameters.get("Производитель");
+        // Map<Integer, String> mapCPUtype = new HashMap<>();
+        // mapCPUtype.put(1, laptop1.getCPUtype());
+        // mapCPUtype.put(2, laptop2.getCPUtype());
+        // mapCPUtype.put(3, laptop3.getCPUtype());
+        // mapCPUtype.put(4, laptop4.getCPUtype());
+        // mapCPUtype.put(4, laptop5.getCPUtype());
 
+        // Map<Integer, Integer> mapDisplays = new HashMap<>();
+        // mapDisplays.put(1, 14);
+        // mapDisplays.put(2, 15);
+        // mapDisplays.put(3, 16);
+        // mapDisplays.put(4, 17);
 
-        //System.out.println(parameters);
-        findBy(laptops, mapBrands, mapColours);
+        // Map<Integer, Integer> mapRAM = new HashMap<>();
+        // mapRAM.put(1, 4);
+        // mapRAM.put(2, 8);
+        // mapRAM.put(3, 16);
+        // mapRAM.put(4, 24);
+
+        // Map<Integer, Integer> mapHDD = new HashMap<>();
+        // mapHDD.put(1, 128);
+        // mapHDD.put(2, 256);
+        // mapHDD.put(3, 512);
+        // mapHDD.put(4, 1000);
+
+        Laptop lookingForLaptop = new Laptop(null, null, null, 0, 0, 0);
+        findBy(laptops, lookingForLaptop, mapBrands, mapColours, mapCPUtype, mapDisplays, mapRAM, mapHDD, mapOfAllCaracters);
     }
 
-    static void findBy(Set<Laptop> laptops, Map<Integer, String> mapBrands, Map<Integer, String> mapColours){
+    private static Map<String, TreeMap<Integer, Object>> createMapOfAllCaracters(TreeMap<Integer, Object> map1,
+        TreeMap<Integer, Object> map2, TreeMap<Integer, Object> map3, TreeMap<Integer, Object> map4, TreeMap<Integer, Object> map5,
+        TreeMap<Integer, Object> map6) {
+        Map<String, TreeMap<Integer, Object>> mapOfAllCaracters = new HashMap<>();
+        
+        mapOfAllCaracters.put("Бренд", map1);
+        mapOfAllCaracters.put("Цвет", map2);
+        mapOfAllCaracters.put("Процессор", map3);
+        mapOfAllCaracters.put("Экран", map4);
+        mapOfAllCaracters.put("ОЗУ", map5);
+        mapOfAllCaracters.put("Память", map6);
+
+        return mapOfAllCaracters;
+    }
+
+    private static TreeMap<Integer, Object> addToTreeMap(List<Object> list) {
+        TreeMap<Integer, Object> treeMap = new TreeMap<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (!treeMap.containsValue(list.get(i))){
+                treeMap.put(i + 1, list.get(i));
+            }
+        }
+        return treeMap;
+    }
+
+    private static List<Object> createBrendList(Set<Laptop> laptops) {
+        List<Object> brendList = new LinkedList<>();
+        for (var laptop : laptops) {
+            if (!brendList.contains(laptop.getBrand())) {
+                brendList.add(laptop.getBrand());
+            }
+        }
+        return brendList;
+    }
+
+    private static List<Object> createсColourList(Set<Laptop> laptops) {
+        List<Object> colourList = new LinkedList<>();
+        for (var laptop : laptops) {
+            if (!colourList.contains(laptop.getColour())) {
+                colourList.add(laptop.getColour());
+            }
+        }
+        return colourList;
+    }
+
+    private static List<Object> createCPUList(Set<Laptop> laptops) {
+        List<Object> cpuList = new LinkedList<>();
+        for (var laptop : laptops) {
+            if (!cpuList.contains(laptop.getCPUtype())) {
+                cpuList.add(laptop.getCPUtype());
+            }
+        }
+        return cpuList;
+    }
+
+    private static List<Object> createDisplayList(Set<Laptop> laptops) {
+        List<Object> displayList = new LinkedList<>();
+        for (var laptop : laptops) {
+            if (!displayList.contains(laptop.getDisplaySize())) {
+                displayList.add(laptop.getDisplaySize());
+            }
+        }
+        return displayList;
+    }
+
+    private static List<Object> createRAMList(Set<Laptop> laptops) {
+        List<Object> ramList = new LinkedList<>();
+        for (var laptop : laptops) {
+            if (!ramList.contains(laptop.getAmountOfRAM())) {
+                ramList.add(laptop.getAmountOfRAM());
+            }
+        }
+        return ramList;
+    }
+
+    private static List<Object> createHDDList(Set<Laptop> laptops) {
+        List<Object> hddList = new LinkedList<>();
+        for (var laptop : laptops) {
+            if (!hddList.contains(laptop.getAmountOfHDD())) {
+                hddList.add(laptop.getAmountOfHDD());
+            }
+        }
+        return hddList;
+    }
+
+    static void findBy(Set<Laptop> laptops, Laptop lookingForLaptop, Map<Integer, String> mapBrands, Map<Integer, String> mapColours, 
+        Map<Integer, String> mapCPUtype, Map<Integer, Integer> mapDisplays, Map<Integer, Integer> mapRAM,
+        Map<Integer, Integer> mapHDD, Map<String, TreeMap<Integer, Object>> mapOfAllCaracters){
+
         System.out.println("\nПредставляем вашему вниманию имеющийся ассортимент ноутбуков: \n");
         printSet(laptops);
-        Map<String, Object> findMap = new HashMap<>();
         Scanner scanner = new Scanner(System.in);
         System.out.printf("Чтобы подобрать устройство для себя введите цифру, соответствующую критерию поиска: \n");
         menu();
@@ -150,40 +217,68 @@ public class Main {
             switch (menuNo) {
                 case "1":
                     System.out.println("Выберите производителя из списка: ");
-                    for (var item : mapBrands.entrySet()) {
+                    for (var item : mapOfAllCaracters.get("Бренд").entrySet()) {
                         System.out.printf("%d. %s\n", item.getKey(), item.getValue());
                     }
                     int numOfBrend = Integer.parseInt(scanner.nextLine());                    
-                    findMap.put("1", mapBrands.get(numOfBrend));
-                    for (var findItem : findMap.entrySet()) {
-                        System.out.printf("%s ", findItem.getValue());
-                    }
+                    lookingForLaptop.setBrand((String)mapOfAllCaracters.get("Бренд").get(numOfBrend));
+                    System.out.println(lookingForLaptop);
                     System.out.println("\n\nВведите следующую команду: ");
                     break;
                 case "2":
                     System.out.println("Выберите цвет из списка: \n");
-                    for (var item : mapColours.entrySet()) {
+                    for (var item : mapOfAllCaracters.get("Цвет").entrySet()) {
                         System.out.printf("%s. %s\n", item.getKey(), item.getValue());
                     }
                     int numOfColour = Integer.parseInt(scanner.nextLine());
-                    findMap.put("2", mapColours.get(numOfColour));
-                    for (var findItem : findMap.entrySet()) {
-                        System.out.printf("%s ", findItem.getValue());
-                    }
+                    lookingForLaptop.setColour((String)mapOfAllCaracters.get("Цвет").get(numOfColour));
+                    System.out.println(lookingForLaptop);
                     System.out.println("\n\nВведите следующую команду:");
                     menu();
                     break;
                 case "3":
-                    
+                    System.out.println("Выберите тип процессора из списка: \n");
+                    for (var item : mapOfAllCaracters.get("Процессор").entrySet()) {
+                        System.out.printf("%s. %s\n", item.getKey(), item.getValue());
+                    }
+                    int numOfCPU = Integer.parseInt(scanner.nextLine());
+                    lookingForLaptop.setCPUtype((String)mapOfAllCaracters.get("Процессор").get(numOfCPU));
+                    System.out.println(lookingForLaptop);
+                    System.out.println("\n\nВведите следующую команду:");
+                    menu();
                     break;
                 case "4":
-                    
+                    System.out.println("Выберите минимальный размер экрана из списка: \n");
+                    for (var item : mapOfAllCaracters.get("ОЗУ").entrySet()) {
+                        System.out.printf("%s. %s\n", item.getKey(), item.getValue());
+                    }
+                    int numOfdisplay = Integer.parseInt(scanner.nextLine());
+                    lookingForLaptop.setDisplaySize((Integer)mapOfAllCaracters.get("ОЗУ").get(numOfdisplay));
+                    System.out.println(lookingForLaptop);
+                    System.out.println("\n\nВведите следующую команду:");
+                    menu();
                     break;
                 case "5":
-                    
+                    System.out.println("Выберите минимальный размер оперативной памяти из списка: \n");
+                    for (var item : mapOfAllCaracters.get("ОЗУ").entrySet()) {
+                        System.out.printf("%s. %s\n", item.getKey(), item.getValue());
+                    }
+                    int numOfRam = Integer.parseInt(scanner.nextLine());
+                    lookingForLaptop.setAmountOfRAM((Integer)mapOfAllCaracters.get("ОЗУ").get(numOfRam));                    
+                    System.out.println(lookingForLaptop);
+                    System.out.println("\n\nВведите следующую команду:");
+                    menu();
                     break;
                 case "6":
-                    
+                    System.out.println("Выберите минимальный размер жесткого диска из списка: \n");
+                    for (var item : mapOfAllCaracters.get("Память").entrySet()) {
+                        System.out.printf("%s. %s\n", item.getKey(), item.getValue());
+                    }
+                    int numOfHdd = Integer.parseInt(scanner.nextLine());
+                    lookingForLaptop.setAmountOfHDD((Integer)mapOfAllCaracters.get("Память").get(numOfHdd));            
+                    System.out.println(lookingForLaptop);
+                    System.out.println("\n\nВведите следующую команду:");
+                    menu();
                     break;
                 case "7":
                     work = false;
@@ -198,31 +293,53 @@ public class Main {
             }        
         }
         scanner.close();
-        filter();
-    } 
-
-    private static void menu() {
-        System.out.println("\n1. Производитель\n" +
-                            "2. Цвет\n" + 
-                            "3. Диагональ экрана\n" + 
-                            "4. Тип процессора\n" + 
-                            "5. Объем оперативной памяти\n" + 
-                            "6. Объем жесткого диска\n" + 
-                            "7. Выполнить Поиск");
+        //mapToset(findMap);
+        System.out.println("Вы выбрали следующие критерии отбора: " + lookingForLaptop);
+        
+        filter(laptops, lookingForLaptop);
     }
 
-    private static void filter() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'filter'");
-    }
-
-    private static void printSet(Set<Laptop> set) {
+    static void printSet(Set<Laptop> set) {
         for (Laptop laptop : set) {
             System.out.printf("%s \n", laptop);
         }
         System.out.println();
     }
 
-    
+    static Set<Object> mapToSet(Map<Integer, Object> map){
+        Set<Object> setOfLaptops = new HashSet<>();
+        for (var mapItem : map.keySet()) {
+            setOfLaptops.add(map.get(mapItem));
+        }
+        return setOfLaptops;
+    }
 
+    private static void menu() {
+        System.out.println("\n1. Производитель\n" +
+                            "2. Цвет\n" + 
+                            "3. Тип процессора\n" + 
+                            "4. Диагональ экрана\n" + 
+                            "5. Объем оперативной памяти\n" + 
+                            "6. Объем жесткого диска\n" + 
+                            "7. Выполнить Поиск");
+    }
+
+    private static void filter(Set<Laptop> laptops, Laptop lookingForLaptop) {
+        Set<Laptop> filteredSet = new HashSet<>();
+        for (var laptop : laptops) {
+            if (laptop.getBrand().equals(lookingForLaptop.getBrand()) || laptop.getColour().equals(lookingForLaptop.getColour()) ||
+                laptop.getCPUtype().equals(lookingForLaptop.getCPUtype()) || laptop.getDisplaySize() >= lookingForLaptop.getDisplaySize() ||
+                laptop.getAmountOfRAM() >= lookingForLaptop.getAmountOfRAM() || laptop.getAmountOfHDD() >= lookingForLaptop.getAmountOfHDD()){
+                filteredSet.add(laptop);
+            }
+        }
+        
+        if (filteredSet.isEmpty()) {
+            System.out.println("К сожалению, мы ничего не нашли повашему запросу.");
+        } else {
+            System.out.println("\nВот что мы подобрали для вас: \n");
+        }
+        printSet(filteredSet);
+    }          
+    
 }
