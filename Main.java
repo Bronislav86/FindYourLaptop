@@ -78,10 +78,9 @@ public class Main {
         menu();
         boolean work = true;
         while (work) {
-            String menuNo  = scanner.nextLine();
+            int menuNo  = Integer.parseInt(scanner.nextLine());
                        
-            switch (menuNo) {
-                case "1":
+            if(menuNo == 1) {
                     System.out.println("Выберите производителя из списка: ");
                     for (var item : mapOfAllCaracters.get("Бренд").entrySet()) {
                         System.out.printf("%d. %s\n", item.getKey(), item.getValue());
@@ -90,8 +89,8 @@ public class Main {
                     lookingForLaptop.setBrand((String)mapOfAllCaracters.get("Бренд").get(numOfBrend));
                     System.out.println(lookingForLaptop);
                     System.out.println("\n\nВведите следующую команду: ");
-                    break;
-                case "2":
+                    menu();
+                } else if (menuNo == 2) {            
                     System.out.println("Выберите цвет из списка: \n");
                     for (var item : mapOfAllCaracters.get("Цвет").entrySet()) {
                         System.out.printf("%s. %s\n", item.getKey(), item.getValue());
@@ -101,8 +100,7 @@ public class Main {
                     System.out.println(lookingForLaptop);
                     System.out.println("\n\nВведите следующую команду:");
                     menu();
-                    break;
-                case "3":
+                } else if (menuNo == 3) {                   
                     System.out.println("Выберите тип процессора из списка: \n");
                     for (var item : mapOfAllCaracters.get("Процессор").entrySet()) {
                         System.out.printf("%s. %s\n", item.getKey(), item.getValue());
@@ -112,8 +110,7 @@ public class Main {
                     System.out.println(lookingForLaptop);
                     System.out.println("\n\nВведите следующую команду:");
                     menu();
-                    break;
-                case "4":
+                } else if (menuNo == 4) {                    
                     System.out.println("Выберите минимальный размер экрана из списка: \n");
                     for (var item : mapOfAllCaracters.get("Экран").entrySet()) {
                         System.out.printf("%s. %s\n", item.getKey(), item.getValue());
@@ -123,8 +120,7 @@ public class Main {
                     System.out.println(lookingForLaptop);
                     System.out.println("\n\nВведите следующую команду:");
                     menu();
-                    break;
-                case "5":
+                } else if (menuNo == 5) { 
                     System.out.println("Выберите минимальный размер оперативной памяти из списка: \n");
                     for (var item : mapOfAllCaracters.get("ОЗУ").entrySet()) {
                         System.out.printf("%s. %s\n", item.getKey(), item.getValue());
@@ -134,8 +130,7 @@ public class Main {
                     System.out.println(lookingForLaptop);
                     System.out.println("\n\nВведите следующую команду:");
                     menu();
-                    break;
-                case "6":
+                } else if (menuNo == 6) {
                     System.out.println("Выберите минимальный размер жесткого диска из списка: \n");
                     for (var item : mapOfAllCaracters.get("Память").entrySet()) {
                         System.out.printf("%s. %s\n", item.getKey(), item.getValue());
@@ -145,21 +140,17 @@ public class Main {
                     System.out.println(lookingForLaptop);
                     System.out.println("\n\nВведите следующую команду:");
                     menu();
-                    break;
-                case "7":
+                } else if (menuNo == 7) {
                     work = false;
                     break;
-            
-                default :
+                } else {
                     System.out.println("Команда не распознана. " + 
                                         "Выберите один из пунктов меню:\n");
                     menu();
-                    menuNo = scanner.nextLine();
-                    break;
-            }        
+                    menuNo = Integer.parseInt(scanner.nextLine());                            
+                }
         }
         scanner.close();
-        //mapToset(findMap);
         System.out.println("Вы выбрали следующие критерии отбора: " + lookingForLaptop);
         
         filter(laptops, lookingForLaptop);
